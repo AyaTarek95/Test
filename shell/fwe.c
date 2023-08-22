@@ -15,12 +15,7 @@ int main(int __attribute__((unused))ac, char *argv[])
     char *token;
     int i, x;
 
-
-    /* declaring void variables */
-    (void)ac;
-
-    /* Create a loop for the shell's prompt */
-    while (1)
+	while (1)    
     {
         printf("%s", prompt);
         nchars_read = getline(&lineptr, &n, stdin);
@@ -66,29 +61,28 @@ int main(int __attribute__((unused))ac, char *argv[])
             token = strtok(NULL, delim);
         }
         argv[i] = NULL;
-
+    
         /* execute the command */
 
 
-	for (x = 0; x < 5; x++)
-	{
+	/**for (x = 0; x < 5; x++)*/
+	
 		if (fork() == 0)
 		{
-			
 			if (execve(argv[0], argv, NULL) == -1)
 			perror("not excuted\n");
-
+			
 				exit (0);
 		}
-	}
-	for (x = 0; x < 5; x++)
-	{
+		else
+		{
+		printf("parent will wait for child\n");
 		wait (NULL);
-	}
-
+		printf("parent is done\n");
+    		}
+    }
 	 /* free up allocated memory */
     free(lineptr_copy);
     free(lineptr);
 	return (0);
-}
 }
